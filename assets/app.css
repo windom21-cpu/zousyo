@@ -150,11 +150,27 @@ table th {
 /* シリーズ統合の元リスト: テーブル表示。他の入力欄と幅を合わせる。
    行クリックで checkbox トグル(行全体がタップ領域)。
    98.cssのチェックボックス隠しスタイルを上書きしてネイティブ表示に。 */
-.merge-from-wrap {
+/* 統合元/先のコントロールラッパ。select/input/tableが縦に並ぶ */
+.merge-ctrl-wrap {
   flex: 1 1 auto;
   min-width: 0;
-  width: calc(100% - 120px);
   max-width: 360px;
+}
+.merge-ctrl-wrap > select,
+.merge-ctrl-wrap > input[type="text"] {
+  width: 100%;
+  max-width: none;
+}
+/* ラッパが縦長になるのでラベルを上揃えに */
+.field-row.merge-row {
+  align-items: flex-start;
+}
+.field-row.merge-row > label {
+  padding-top: 3px;
+}
+
+.merge-from-wrap {
+  width: 100%;
   max-height: 240px;
   overflow-y: auto;
   border: 1px solid #808080;
@@ -208,6 +224,9 @@ table th {
   .merge-from-wrap {
     max-width: none;
     width: auto;
+  }
+  .merge-ctrl-wrap {
+    max-width: none;
   }
 }
 

@@ -12,9 +12,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.13">
-<link rel="stylesheet" href="./assets/app.css?v=2.13">
-<script src="./assets/config.js?v=2.13"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.14">
+<link rel="stylesheet" href="./assets/app.css?v=2.14">
+<script src="./assets/config.js?v=2.14"></script>
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 </head>
 <body>
@@ -102,17 +102,22 @@
 
     <fieldset style="margin-top:12px;">
       <legend>シリーズ統合・改名</legend>
-      <p class="muted">既存シリーズの名前を一括で書き換えます。複数選んでまとめて1つに集約することも可能。<br>
-      ・既存の別シリーズに統合: 統合先で既存名を選ぶ<br>
-      ・全くの新名に変更(全件改名): 統合先に新しい名前を直接入力</p>
-      <div class="field-row">
-        <label>統合元(複数可)</label>
-        <div id="mergeFromWrap" class="merge-from-wrap"><table id="mergeFromTable"></table></div>
+      <p class="muted">既存シリーズの名前を一括で書き換えます。<br>
+      ・複数のシリーズをまとめたい: 統合元で「複数選択する」を選ぶと表が現れます<br>
+      ・新しい名前に変えたい: 統合先で「新規入力する」を選ぶと入力欄が現れます</p>
+      <div class="field-row merge-row">
+        <label>統合元</label>
+        <div class="merge-ctrl-wrap">
+          <select id="mergeFromSelect"></select>
+          <div id="mergeFromWrap" class="merge-from-wrap" style="display:none;margin-top:6px;"><table id="mergeFromTable"></table></div>
+        </div>
       </div>
-      <div class="field-row">
+      <div class="field-row merge-row">
         <label>統合先</label>
-        <input type="text" id="mergeTo" list="mergeToList" autocomplete="off" placeholder="既存名から選択 or 新規入力">
-        <datalist id="mergeToList"></datalist>
+        <div class="merge-ctrl-wrap">
+          <select id="mergeToSelect"></select>
+          <input type="text" id="mergeToInput" autocomplete="off" placeholder="新しいシリーズ名" style="display:none;margin-top:6px;">
+        </div>
       </div>
       <p id="mergePreview" class="muted"></p>
       <div class="button-row">
@@ -138,6 +143,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/settings.js?v=2.13"></script>
+<script type="module" src="./assets/settings.js?v=2.14"></script>
 </body>
 </html>

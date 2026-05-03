@@ -3,7 +3,7 @@ import {
   getNextInviteNum, setNextInviteNum, formatInviteNum,
   config, fetchData, commitMutation, normalize,
   startBarcodeScan, stopBarcodeScan, SCAN_FORMAT_QR_CODE
-} from './core.js?v=2.13';
+} from './core.js?v=2.14';
 import QRCode from 'https://esm.sh/qrcode@1.5.3';
 
 const $ = id => document.getElementById(id);
@@ -145,7 +145,26 @@ async function loadSeriesOptions() {
   const set = new Set(allItems.map(i => i.series).filter(Boolean));
   const arr = [...set].sort((a,b) => a.localeCompare(b, 'ja'));
 
-  // 統合元: テーブル形式。各行クリックでチェックボックスをトグル
+  // 統合元 select: 既存シリーズ + 「複数選択する」
+  const fromSel = $('mergeFromSelect');
+  fromSel.innerHTML = '';
+  fromSel.appendChild(new Option('-- 選択 --', ''));
+  for (const s of arr) {
+    const count = allItems.filter(i => i.series === s).length;
+    fromSel.appendChild(new Option(`${s} (${count}冊)`, s));
+  }
+  fromSel.appendChild(new Option('--- 複数選択する ---', '__multi__'));
+
+  // 統合先 select: 既存シリーズ + 「新規入力する」
+  const toSel = $('mergeToSelect');
+  toSel.innerHTML = '';
+  toSel.appendChild(new Option('-- 選択 --', ''));
+  for (const s of arr) {
+    toSel.appendChild(new Option(s, s));
+  }
+  toSel.appendChild(new Option('--- 新規入力する ---', '__new__'));
+
+  // 複数選択モード用テーブル
   const table = $('mergeFromTable');
   table.innerHTML = '<thead><tr><th>選択</th><th>シリーズ</th><th>冊数</th></tr></thead><tbody></tbody>';
   const tbody = table.querySelector('tbody');
@@ -158,8 +177,6 @@ async function loadSeriesOptions() {
       tr.innerHTML = `<td><input type="checkbox" data-series="${escHtml(s)}"></td><td>${escHtml(s)}</td><td>${count}</td>`;
       tbody.appendChild(tr);
     }
-    // 行のどこをタップしても切替。チェックボックス自身のクリックは
-    // ブラウザが先に処理するので、target判定で二重トグルを防ぐ
     tbody.querySelectorAll('tr').forEach(tr => {
       tr.addEventListener('click', (e) => {
         const cb = tr.querySelector('input[type=checkbox]');
@@ -170,32 +187,57 @@ async function loadSeriesOptions() {
     });
   }
 
-  // 統合先: datalistで既存名サジェスト
-  const dl = $('mergeToList');
-  dl.innerHTML = '';
-  for (const s of arr) {
-    const o = document.createElement('option');
-    o.value = s;
-    dl.appendChild(o);
-  }
+  // 表示状態リセット
+  $('mergeFromWrap').style.display = 'none';
+  $('mergeToInput').style.display = 'none';
+  $('mergeToInput').value = '';
   refreshMergePreview();
 }
 loadSeriesOptions();
 
+// モード切替: 統合元
+$('mergeFromSelect').addEventListener('change', () => {
+  const v = $('mergeFromSelect').value;
+  $('mergeFromWrap').style.display = (v === '__multi__') ? '' : 'none';
+  refreshMergePreview();
+});
+// モード切替: 統合先
+$('mergeToSelect').addEventListener('change', () => {
+  const v = $('mergeToSelect').value;
+  if (v === '__new__') {
+    $('mergeToInput').style.display = '';
+    $('mergeToInput').value = '';
+    $('mergeToInput').focus();
+  } else {
+    $('mergeToInput').style.display = 'none';
+  }
+  refreshMergePreview();
+});
+$('mergeToInput').addEventListener('input', refreshMergePreview);
+
 function getSelectedSources() {
-  return Array.from($('mergeFromTable').querySelectorAll('input[type=checkbox]:checked'))
-    .map(cb => cb.dataset.series);
+  if ($('mergeFromSelect').value === '__multi__') {
+    return Array.from($('mergeFromTable').querySelectorAll('input[type=checkbox]:checked'))
+      .map(cb => cb.dataset.series);
+  }
+  const v = $('mergeFromSelect').value;
+  return v ? [v] : [];
+}
+function getMergeTarget() {
+  if ($('mergeToSelect').value === '__new__') {
+    return $('mergeToInput').value.trim();
+  }
+  return $('mergeToSelect').value;
 }
 
 function refreshMergePreview() {
   const sources = getSelectedSources();
-  const to = $('mergeTo').value.trim();
+  const to = getMergeTarget();
   if (sources.length === 0 || !to) {
     $('mergePreview').textContent = '';
     $('mergeApply').disabled = true;
     return;
   }
-  // 統合先と同じ名前の元はスキップ(自分→自分は無意味)
   const filtered = sources.filter(s => s !== to);
   if (filtered.length === 0) {
     $('mergePreview').innerHTML = '<span class="error">選択した統合元と統合先が同じです</span>';
@@ -211,11 +253,10 @@ function refreshMergePreview() {
   $('mergePreview').textContent = `${list} → ${to}(${verb}): 合計${total}冊`;
   $('mergeApply').disabled = total === 0;
 }
-$('mergeTo').addEventListener('input', refreshMergePreview);
 
 $('mergeApply').addEventListener('click', async () => {
   const sources = getSelectedSources();
-  const to = $('mergeTo').value.trim();
+  const to = getMergeTarget();
   if (!sources.length || !to) return;
   const filtered = sources.filter(s => s !== to);
   if (!filtered.length) return;
@@ -233,7 +274,6 @@ $('mergeApply').addEventListener('click', async () => {
       }
     }, `${existsAlready ? 'merge' : 'rename'} series: ${filtered.length}件 → ${to} (${total}冊)`);
     $('mergeStatus').innerHTML = `<span style="color:#006400;">${total}冊を${verb}しました</span>`;
-    $('mergeTo').value = '';
     await loadSeriesOptions();
   } catch (e) {
     $('mergeStatus').innerHTML = `<span class="error">${e.message}</span>`;
