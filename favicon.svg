@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-om-id="f82a020b:22">
+  <rect width="64" height="64" rx="10" fill="#111111" data-om-id="f82a020b:23"></rect>
+  <rect x="14" y="12" width="10" height="40" fill="#F5F1E8" data-om-id="f82a020b:24"></rect>
+  <rect x="16" y="18" width="6" height="0.8" fill="#111111" opacity="0.35" data-om-id="f82a020b:25"></rect>
+  <rect x="16" y="22" width="6" height="0.8" fill="#111111" opacity="0.35" data-om-id="f82a020b:26"></rect>
+  <rect x="16" y="26" width="6" height="0.8" fill="#111111" opacity="0.35" data-om-id="f82a020b:27"></rect>
+  <rect x="16" y="30" width="4" height="0.8" fill="#111111" opacity="0.35" data-om-id="f82a020b:28"></rect>
+  <polygon points="24,32 50,12 50,20 24,38" fill="#D946A8" data-om-id="f82a020b:29"></polygon>
+  <polygon points="24,32 50,52 50,44 24,26" fill="#D946A8" data-om-id="f82a020b:30"></polygon>
+  <line x1="26" y1="33" x2="48" y2="17" stroke="#F5F1E8" stroke-width="0.5" opacity="0.4" data-om-id="f82a020b:31"></line>
+  <line x1="26" y1="31" x2="48" y2="47" stroke="#F5F1E8" stroke-width="0.5" opacity="0.4" data-om-id="f82a020b:32"></line>
+</svg>

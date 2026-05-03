@@ -4,6 +4,6 @@ window.APP_CONFIG = {
   repo: 'zousyo',
   branch: 'main',
   dataFile: 'data.json',
-  appTitle: '蔵書ファイル',
-  version: 'v0.4'
+  appTitle: 'K-books',
+  version: 'v0.5'
 };
