@@ -12,9 +12,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.17">
-<link rel="stylesheet" href="./assets/app.css?v=2.17">
-<script src="./assets/config.js?v=2.17"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.18">
+<link rel="stylesheet" href="./assets/app.css?v=2.18">
+<script src="./assets/config.js?v=2.18"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
 </head>
 <body>
@@ -61,7 +61,15 @@
         <div class="field-row"><label>著者</label><input type="text" id="e_author"></div>
         <div class="field-row"><label>出版社</label><input type="text" id="e_publisher"></div>
         <div class="field-row"><label>ISBN</label><input type="text" id="e_isbn"></div>
-        <div class="field-row"><label>表紙URL</label><input type="text" id="e_coverUrl"></div>
+        <div class="field-row">
+          <label>表紙URL</label>
+          <input type="text" id="e_coverUrl">
+          <button type="button" id="e_coverRefresh" title="ISBNから表紙を再取得">再取得</button>
+        </div>
+        <div class="field-row">
+          <label>表紙プレビュー</label>
+          <img id="e_coverPreview" alt="" style="max-width:140px;max-height:200px;border:1px solid #808080;display:none;">
+        </div>
         <div class="field-row">
           <label>登録日</label>
           <input type="text" id="e_acquiredAt" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
@@ -87,6 +95,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/search.js?v=2.17"></script>
+<script type="module" src="./assets/search.js?v=2.18"></script>
 </body>
 </html>

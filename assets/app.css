@@ -142,8 +142,9 @@ table th {
 }
 
 .cover-thumb {
-  width: 40px;
-  height: auto;
+  max-width: 40px;
+  max-height: 56px;
+  display: block;
   vertical-align: middle;
 }
 

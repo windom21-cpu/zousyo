@@ -1,4 +1,4 @@
-import { fetchData, commitMutation, normalize, attachCalendarPicker } from './core.js?v=2.17';
+import { fetchData, commitMutation, normalize, attachCalendarPicker, refreshCoverUrl } from './core.js?v=2.18';
 
 const $ = id => document.getElementById(id);
 let allItems = [];
@@ -67,10 +67,14 @@ function render(query) {
     const vols = g.items.map(i => i.volume).filter(v => v != null).sort((a,b) => a-b);
     const missing = findMissing(vols);
     html += `<table border="1" style="margin-bottom:12px;">`;
-    html += `<thead><tr><th colspan="6">${esc(g.series)}${g.edition ? ' [' + esc(g.edition) + ']' : ''} — 所持 ${g.items.length}冊 / 最大 ${max}巻${missing.length ? ' / 抜け: ' + missing.join(',') : ''}</th></tr>`;
-    html += `<tr><th>巻</th><th>タイトル</th><th>ISBN</th><th>登録者</th><th>登録日</th><th></th></tr></thead><tbody>`;
+    html += `<thead><tr><th colspan="7">${esc(g.series)}${g.edition ? ' [' + esc(g.edition) + ']' : ''} — 所持 ${g.items.length}冊 / 最大 ${max}巻${missing.length ? ' / 抜け: ' + missing.join(',') : ''}</th></tr>`;
+    html += `<tr><th>表紙</th><th>巻</th><th>タイトル</th><th>ISBN</th><th>登録者</th><th>登録日</th><th></th></tr></thead><tbody>`;
     for (const it of g.items) {
+      const cover = it.coverUrl
+        ? `<img src="${esc(it.coverUrl)}" alt="" loading="lazy" class="cover-thumb" onerror="this.style.display='none'">`
+        : '';
       html += `<tr>
+        <td>${cover}</td>
         <td>${it.volume ?? ''}</td>
         <td>${esc(it.title || '')}</td>
         <td>${esc(it.isbn || '')}</td>
@@ -146,12 +150,56 @@ function openEdit(id) {
   $('e_publisher').value = it.publisher || '';
   $('e_isbn').value = it.isbn || '';
   $('e_coverUrl').value = it.coverUrl || '';
+  refreshCoverPreview();
   $('e_acquiredAt').value = it.acquiredAt || '';
   $('e_note').value = it.note || '';
   $('e_status').textContent = '';
   $('detail').style.display = 'block';
   $('detail').scrollIntoView({ behavior: 'smooth' });
 }
+
+function refreshCoverPreview() {
+  const url = $('e_coverUrl').value.trim();
+  const img = $('e_coverPreview');
+  if (url) {
+    img.src = url;
+    img.style.display = 'block';
+  } else {
+    img.removeAttribute('src');
+    img.style.display = 'none';
+  }
+}
+$('e_coverUrl').addEventListener('input', refreshCoverPreview);
+$('e_coverPreview').addEventListener('error', () => {
+  $('e_coverPreview').style.display = 'none';
+});
+
+$('e_coverRefresh').addEventListener('click', async () => {
+  const isbn = $('e_isbn').value.trim();
+  if (!isbn) {
+    $('e_status').innerHTML = '<span class="error">ISBNが空のため再取得できません</span>';
+    return;
+  }
+  const btn = $('e_coverRefresh');
+  btn.disabled = true;
+  const orig = btn.textContent;
+  btn.textContent = '取得中...';
+  try {
+    const url = await refreshCoverUrl(isbn);
+    if (url) {
+      $('e_coverUrl').value = url;
+      refreshCoverPreview();
+      $('e_status').innerHTML = '<span style="color:#006400;">表紙URLを取得しました(保存ボタンで確定)</span>';
+    } else {
+      $('e_status').innerHTML = '<span class="error">表紙が見つかりませんでした</span>';
+    }
+  } catch (e) {
+    $('e_status').innerHTML = `<span class="error">${e.message}</span>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+});
 
 $('e_cancel').addEventListener('click', () => {
   $('detail').style.display = 'none';

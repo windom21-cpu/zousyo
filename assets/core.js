@@ -264,6 +264,12 @@ export async function lookupISBN(isbn) {
     const s = b.summary || {};
     const onix = b.onix || {};
     const collation = onix.DescriptiveDetail?.TitleDetail?.TitleElement?.TitleText?.collationkey || '';
+    let coverUrl = s.cover || '';
+    // openBDが表紙を持っていない場合(マンガ系出版社で多い)Google Booksに
+    // フォールバック。CORS対応済の公開APIのためブラウザから直接呼べる
+    if (!coverUrl) {
+      coverUrl = await fetchGoogleBooksCover(clean);
+    }
     return {
       isbn: s.isbn || clean,
       title: s.title || '',
@@ -271,13 +277,33 @@ export async function lookupISBN(isbn) {
       volume: s.volume || '',
       author: s.author || '',
       publisher: s.publisher || '',
-      coverUrl: s.cover || '',
+      coverUrl,
       yomi: collation
     };
   } catch (e) {
     console.error(e);
     return null;
   }
+}
+
+async function fetchGoogleBooksCover(isbn) {
+  if (!isbn) return '';
+  try {
+    const r = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1`);
+    if (!r.ok) return '';
+    const j = await r.json();
+    const thumb = j.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || '';
+    // mixed contentを避けるためHTTPS化
+    return thumb ? thumb.replace(/^http:/, 'https:') : '';
+  } catch (e) {
+    return '';
+  }
+}
+
+// 表紙URL再取得(編集画面の「再取得」ボタンから呼ばれる)
+export async function refreshCoverUrl(isbn) {
+  const r = await lookupISBN(isbn);
+  return r?.coverUrl || '';
 }
 
 // 重複キー: series + volume + edition(ISBN欠落時のフォールバック用)
