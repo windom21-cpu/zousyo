@@ -3,7 +3,7 @@ import {
   findDuplicate, parseVolume, getNick, guessSeriesFromTitle,
   findExistingSeries,
   startBarcodeScan, stopBarcodeScan, SCAN_FORMAT_EAN_13
-} from './core.js?v=2.9';
+} from './core.js?v=2.10';
 
 const $ = id => document.getElementById(id);
 const queue = [];
@@ -116,7 +116,9 @@ function render() {
   let html = '<table border="1"><thead><tr>';
   html += '<th>#</th><th>ISBN</th><th>シリーズ</th><th>巻</th><th>タイトル</th><th>状態</th><th></th>';
   html += '</tr></thead><tbody>';
-  queue.forEach((q, i) => {
+  // 新しい読取が上に来るよう逆順で表示。#番号はスキャン順(配列内のインデックス+1)を保つ
+  for (let i = queue.length - 1; i >= 0; i--) {
+    const q = queue[i];
     const b = q.book || {};
     html += `<tr>
       <td>${i+1}</td>
@@ -130,7 +132,7 @@ function render() {
         <button data-i="${i}" class="delBtn">×</button>
       </td>
     </tr>`;
-  });
+  }
   html += '</tbody></table>';
   $('queueWrap').innerHTML = html;
   for (const b of $('queueWrap').querySelectorAll('.delBtn')) {
