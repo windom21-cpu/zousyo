@@ -74,6 +74,21 @@
       "addedBy": "001",
       "note": "",
       "acquiredAt": "2026-05-03"
+    },
+    {
+      "id": "9d569c7e-8064-4e57-9ced-872d5e6e6e5a",
+      "series": "ジャンプコミックス",
+      "seriesYomi": "ジュジュツ カイセン",
+      "volume": 6,
+      "edition": "",
+      "title": "呪術廻戦 6",
+      "author": "芥見,下々,1992-",
+      "publisher": "集英社",
+      "isbn": "9784088818764",
+      "coverUrl": "",
+      "addedBy": "001",
+      "note": "",
+      "acquiredAt": "2026-05-03"
     }
   ]
 }
