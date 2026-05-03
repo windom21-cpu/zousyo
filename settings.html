@@ -12,9 +12,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.10">
-<link rel="stylesheet" href="./assets/app.css?v=2.10">
-<script src="./assets/config.js?v=2.10"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.11">
+<link rel="stylesheet" href="./assets/app.css?v=2.11">
+<script src="./assets/config.js?v=2.11"></script>
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 </head>
 <body>
@@ -102,12 +102,12 @@
 
     <fieldset style="margin-top:12px;">
       <legend>シリーズ統合・改名</legend>
-      <p class="muted">既存シリーズの名前を一括で書き換えます。<br>
+      <p class="muted">既存シリーズの名前を一括で書き換えます。複数選んでまとめて1つに集約することも可能。<br>
       ・既存の別シリーズに統合: 統合先で既存名を選ぶ<br>
       ・全くの新名に変更(全件改名): 統合先に新しい名前を直接入力</p>
       <div class="field-row">
-        <label>統合元</label>
-        <select id="mergeFrom"><option value="">-- 選択 --</option></select>
+        <label>統合元(複数可)</label>
+        <div id="mergeFromList" style="flex:1 1 auto;min-width:0;max-height:240px;overflow-y:auto;border:1px solid #808080;background:#fff;padding:4px 6px;"></div>
       </div>
       <div class="field-row">
         <label>統合先</label>
@@ -138,6 +138,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/settings.js?v=2.10"></script>
+<script type="module" src="./assets/settings.js?v=2.11"></script>
 </body>
 </html>
