@@ -11,9 +11,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.0">
-<link rel="stylesheet" href="./assets/app.css?v=2.0">
-<script src="./assets/config.js?v=2.0"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.1">
+<link rel="stylesheet" href="./assets/app.css?v=2.1">
+<script src="./assets/config.js?v=2.1"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
 </head>
 <body>
@@ -64,7 +64,10 @@
         <div class="field-row">
           <label>登録日</label>
           <input type="text" id="e_acquiredAt" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
-          <button type="button" id="e_acquiredAtPickBtn" title="カレンダーから選択">📅</button>
+          <span class="date-pick-wrap" title="カレンダーから選択">
+            <button type="button" tabindex="-1">📅</button>
+            <input type="date" id="e_acquiredAtPicker" aria-label="登録日選択">
+          </span>
         </div>
         <div class="field-row"><label>メモ</label><textarea id="e_note"></textarea></div>
         <div class="button-row">
@@ -83,6 +86,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/search.js?v=2.0"></script>
+<script type="module" src="./assets/search.js?v=2.1"></script>
 </body>
 </html>

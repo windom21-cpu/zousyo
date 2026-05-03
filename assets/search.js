@@ -1,4 +1,4 @@
-import { fetchData, commitMutation, normalize, attachCalendarPicker } from './core.js?v=2.0';
+import { fetchData, commitMutation, normalize, attachCalendarPicker } from './core.js?v=2.1';
 
 const $ = id => document.getElementById(id);
 let allItems = [];
@@ -213,5 +213,5 @@ $('qClear').addEventListener('click', () => {
   $('q').focus();
 });
 
-attachCalendarPicker('e_acquiredAt', 'e_acquiredAtPickBtn');
+attachCalendarPicker('e_acquiredAt', 'e_acquiredAtPicker');
 load();

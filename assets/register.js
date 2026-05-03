@@ -2,7 +2,7 @@ import {
   uuid, lookupISBN, commitMutation, fetchData,
   findDuplicate, parseVolume, getNick, setNick, guessSeriesFromTitle,
   attachCalendarPicker, findExistingSeries
-} from './core.js?v=2.0';
+} from './core.js?v=2.1';
 
 const $ = id => document.getElementById(id);
 const fields = ['isbn','series','seriesYomi','volume','edition','title','author','publisher','coverUrl','addedBy','acquiredAt','note'];
@@ -27,7 +27,7 @@ function clearForm() {
 }
 
 clearForm();
-attachCalendarPicker('acquiredAt', 'acquiredAtPickBtn');
+attachCalendarPicker('acquiredAt', 'acquiredAtPicker');
 
 // 既存蔵書のシリーズ名をdatalistに流し込んでサジェスト表示
 let existingItems = [];
