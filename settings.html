@@ -12,9 +12,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.7">
-<link rel="stylesheet" href="./assets/app.css?v=2.7">
-<script src="./assets/config.js?v=2.7"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.8">
+<link rel="stylesheet" href="./assets/app.css?v=2.8">
+<script src="./assets/config.js?v=2.8"></script>
 <script src="https://unpkg.com/html5-qrcode" defer></script>
 </head>
 <body>
@@ -101,19 +101,22 @@
     </fieldset>
 
     <fieldset style="margin-top:12px;">
-      <legend>シリーズ統合</legend>
-      <p class="muted">表記の違うシリーズ名を1つに揃えます。例: 「ジョジョ」を「ジョジョの奇妙な冒険」に統合 → 該当する蔵書のシリーズ名が一括で書き換わります。</p>
+      <legend>シリーズ統合・改名</legend>
+      <p class="muted">既存シリーズの名前を一括で書き換えます。<br>
+      ・既存の別シリーズに統合: 統合先で既存名を選ぶ<br>
+      ・全くの新名に変更(全件改名): 統合先に新しい名前を直接入力</p>
       <div class="field-row">
         <label>統合元</label>
         <select id="mergeFrom"><option value="">-- 選択 --</option></select>
       </div>
       <div class="field-row">
         <label>統合先</label>
-        <select id="mergeTo"><option value="">-- 選択 --</option></select>
+        <input type="text" id="mergeTo" list="mergeToList" autocomplete="off" placeholder="既存名から選択 or 新規入力">
+        <datalist id="mergeToList"></datalist>
       </div>
       <p id="mergePreview" class="muted"></p>
       <div class="button-row">
-        <button id="mergeApply" disabled>統合する</button>
+        <button id="mergeApply" disabled>適用する</button>
       </div>
       <p id="mergeStatus" class="muted"></p>
     </fieldset>
@@ -135,6 +138,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/settings.js?v=2.7"></script>
+<script type="module" src="./assets/settings.js?v=2.8"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ import {
   getNextInviteNum, setNextInviteNum, formatInviteNum,
   config, fetchData, commitMutation, normalize,
   startBarcodeScan, stopBarcodeScan, SCAN_FORMAT_QR_CODE
-} from './core.js?v=2.7';
+} from './core.js?v=2.8';
 import QRCode from 'https://esm.sh/qrcode@1.5.3';
 
 const $ = id => document.getElementById(id);
@@ -141,14 +141,22 @@ async function loadSeriesOptions() {
   allItems = data.items;
   const set = new Set(allItems.map(i => i.series).filter(Boolean));
   const arr = [...set].sort((a,b) => a.localeCompare(b, 'ja'));
-  for (const sel of [$('mergeFrom'), $('mergeTo')]) {
-    sel.innerHTML = '<option value="">-- 選択 --</option>';
-    for (const s of arr) {
-      const o = document.createElement('option');
-      o.value = s;
-      o.textContent = `${s} (${allItems.filter(i => i.series === s).length}冊)`;
-      sel.appendChild(o);
-    }
+  // 統合元: 既存シリーズから選択(冊数表示)
+  const sel = $('mergeFrom');
+  sel.innerHTML = '<option value="">-- 選択 --</option>';
+  for (const s of arr) {
+    const o = document.createElement('option');
+    o.value = s;
+    o.textContent = `${s} (${allItems.filter(i => i.series === s).length}冊)`;
+    sel.appendChild(o);
+  }
+  // 統合先: 自由入力 + datalistで既存名サジェスト
+  const dl = $('mergeToList');
+  dl.innerHTML = '';
+  for (const s of arr) {
+    const o = document.createElement('option');
+    o.value = s;
+    dl.appendChild(o);
   }
   refreshMergePreview();
 }
@@ -156,7 +164,7 @@ loadSeriesOptions();
 
 function refreshMergePreview() {
   const from = $('mergeFrom').value;
-  const to = $('mergeTo').value;
+  const to = $('mergeTo').value.trim();
   if (!from || !to) {
     $('mergePreview').textContent = '';
     $('mergeApply').disabled = true;
@@ -168,26 +176,31 @@ function refreshMergePreview() {
     return;
   }
   const target = allItems.filter(i => i.series === from);
-  $('mergePreview').textContent = `${from} → ${to} に書換: ${target.length}冊`;
+  const existsAlready = allItems.some(i => i.series === to);
+  const verb = existsAlready ? '統合' : '改名';
+  $('mergePreview').textContent = `${from} → ${to}(${verb}): ${target.length}冊`;
   $('mergeApply').disabled = target.length === 0;
 }
 $('mergeFrom').addEventListener('change', refreshMergePreview);
-$('mergeTo').addEventListener('change', refreshMergePreview);
+$('mergeTo').addEventListener('input', refreshMergePreview);
 
 $('mergeApply').addEventListener('click', async () => {
   const from = $('mergeFrom').value;
-  const to = $('mergeTo').value;
+  const to = $('mergeTo').value.trim();
   if (!from || !to || from === to) return;
   const target = allItems.filter(i => i.series === from);
-  if (!confirm(`${target.length}冊のシリーズ名を「${from}」→「${to}」に書き換えます。\n進めますか?`)) return;
-  $('mergeStatus').textContent = '統合中...';
+  const existsAlready = allItems.some(i => i.series === to);
+  const verb = existsAlready ? '統合' : '改名';
+  if (!confirm(`${target.length}冊のシリーズ名を「${from}」→「${to}」に${verb}します。\n進めますか?`)) return;
+  $('mergeStatus').textContent = '実行中...';
   try {
     await commitMutation(items => {
       for (const it of items) {
         if (it.series === from) it.series = to;
       }
-    }, `merge series: ${from} → ${to} (${target.length}冊)`);
-    $('mergeStatus').innerHTML = `<span style="color:#006400;">${target.length}冊を統合しました</span>`;
+    }, `${existsAlready ? 'merge' : 'rename'} series: ${from} → ${to} (${target.length}冊)`);
+    $('mergeStatus').innerHTML = `<span style="color:#006400;">${target.length}冊を${verb}しました</span>`;
+    $('mergeTo').value = '';
     await loadSeriesOptions();
   } catch (e) {
     $('mergeStatus').innerHTML = `<span class="error">${e.message}</span>`;
