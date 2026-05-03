@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>セットアップ手順 - 蔵書ファイル</title>
+<link rel="stylesheet" href="./assets/98.css">
+<link rel="stylesheet" href="./assets/app.css">
+<style>
+  ol, ul { padding-left: 20px; }
+  ol li, ul li { margin: 4px 0; }
+  .step {
+    background: #fff;
+    border: 1px solid #808080;
+    padding: 8px 12px;
+    margin: 8px 0;
+  }
+  .step h3 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    background: #000080;
+    color: #fff;
+    padding: 2px 6px;
+    display: inline-block;
+  }
+  code {
+    background: #ffffc0;
+    padding: 1px 4px;
+    border: 1px solid #c0c0c0;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="title-bar-text">セットアップ手順</div>
+    <div class="title-bar-controls">
+      <button aria-label="Close" onclick="location.href='./index.html'"></button>
+    </div>
+  </div>
+  <div class="window-body">
+
+    <p>蔵書ファイルを使い始めるための手順です。書き込み(登録・編集・削除)を行う端末ごとに必要です。<strong>閲覧だけなら何も設定不要です。</strong></p>
+
+    <fieldset>
+      <legend>このサイト</legend>
+      <table border="1">
+        <tr><th>アプリURL</th><td><a href="./index.html">https://windom21-cpu.github.io/zousyo/</a></td></tr>
+        <tr><th>リポジトリ</th><td><a href="https://github.com/windom21-cpu/zousyo" target="_blank">github.com/windom21-cpu/zousyo</a></td></tr>
+      </table>
+    </fieldset>
+
+    <div class="step">
+      <h3>STEP 1 — fine-grained PAT を発行</h3>
+      <p>GitHubにログインした状態で、<a href="https://github.com/settings/personal-access-tokens/new" target="_blank">こちら</a>を開く。または:</p>
+      <p class="muted">右上のアイコン → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</p>
+      <p>以下のように設定:</p>
+      <table border="1">
+        <tr><th>項目</th><th>値</th></tr>
+        <tr><td>Token name</td><td><code>zousyo-write</code>(任意)</td></tr>
+        <tr><td>Expiration</td><td>1 year(最長)</td></tr>
+        <tr><td>Resource owner</td><td>windom21-cpu</td></tr>
+        <tr><td>Repository access</td><td>Only select repositories → <code>zousyo</code></td></tr>
+        <tr><td>Repository permissions</td><td>Contents: <strong>Read and write</strong></td></tr>
+      </table>
+      <p>「Generate token」を押下 → <code>github_pat_xxxxxx...</code> が表示されるのでコピー。<strong>再表示できない</strong>のでメモ帳等に一時保存。</p>
+      <p class="warn">期限は最長1年。失効したら同じ手順で作り直し → 設定画面で更新。カレンダーに登録推奨。</p>
+    </div>
+
+    <div class="step">
+      <h3>STEP 2 — 設定画面でPATを保存</h3>
+      <ol>
+        <li><a href="./index.html">トップページ</a>を開く</li>
+        <li>「設定」をクリック</li>
+        <li>PAT欄にSTEP1でコピーしたトークンを貼り付け</li>
+        <li>ニックネームを入力(任意・登録履歴に残ります)</li>
+        <li>「保存」を押下</li>
+      </ol>
+      <p>これでこの端末から書き込み(登録・編集・削除)が可能になります。</p>
+    </div>
+
+    <div class="step">
+      <h3>STEP 3 — 家族の端末に招待</h3>
+      <ol>
+        <li>あなたの端末で「設定」→「QR表示」</li>
+        <li>表示されたQRを、家族のスマホのカメラで読み取る</li>
+        <li>家族の端末でアプリが開き、「PATを受け取りました」と表示される</li>
+        <li>これで家族の端末からも書き込み可能になる</li>
+      </ol>
+      <p class="warn"><strong>注意</strong>: QRはPATそのものと同等の重みです。SNS掲載・来客の見える場所への掲示は避けてください。万一漏洩したらSTEP1のページでPATを失効させ、新しいPATを発行 → 再配布。</p>
+    </div>
+
+    <div class="step">
+      <h3>STEP 4 — 動作確認</h3>
+      <ul>
+        <li><strong>トップ</strong>: 「登録冊数: 0 冊 / PAT: 設定済」と表示される</li>
+        <li><strong>登録(手動)</strong>: ISBN手入力 → 「openBD取得」で自動補完 → 保存</li>
+        <li><strong>登録(バーコード)</strong>: スマホで「スキャン開始」→ コミックのバーコードを向ける → 自動でフォーム補完 → 保存</li>
+        <li><strong>検索</strong>: 「わんぴーす」「ONE」など部分入力 → サジェスト表示、所持最大巻と抜け巻が表示される</li>
+        <li><strong>重複チェック</strong>: 同シリーズ・同巻・同版を登録しようとすると警告が出る</li>
+      </ul>
+    </div>
+
+    <fieldset style="margin-top:12px;">
+      <legend>トラブルシューティング</legend>
+      <table border="1">
+        <tr><th>症状</th><th>対処</th></tr>
+        <tr><td>カメラが起動しない</td><td>HTTPSでアクセスしているか確認(GitHub PagesならOK)。iOSはSafari、AndroidはChromeで使用</td></tr>
+        <tr><td>保存時に「PATが未設定です」</td><td>設定画面でPATを保存</td></tr>
+        <tr><td>保存時に「保存失敗 401/403」</td><td>PATの権限不足または失効。STEP1で再発行</td></tr>
+        <tr><td>保存失敗 422/409 を繰り返す</td><td>誰かが同時に書き込み中。少し待って再試行(自動リトライ4回)</td></tr>
+        <tr><td>登録直後に検索で出ない</td><td>GitHubの反映に数秒かかる。検索画面の「再読込」を押下</td></tr>
+        <tr><td>openBDで書誌が見つからない</td><td>古い本・同人誌などは未収録。手入力で対応</td></tr>
+      </table>
+    </fieldset>
+
+    <div class="button-row" style="margin-top:12px;">
+      <button onclick="location.href='./index.html'">トップへ</button>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
