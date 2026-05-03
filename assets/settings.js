@@ -1,4 +1,4 @@
-import { getPAT, setPAT, getNick, setNick, config } from './core.js?v=1.5';
+import { getPAT, setPAT, getNick, setNick, config } from './core.js?v=1.6';
 import QRCode from 'https://esm.sh/qrcode@1.5.3';
 
 const $ = id => document.getElementById(id);
@@ -36,4 +36,14 @@ $('qrShow').addEventListener('click', async () => {
 });
 $('qrHide').addEventListener('click', () => {
   $('qrArea').style.display = 'none';
+});
+
+$('topQrShow').addEventListener('click', async () => {
+  const url = location.origin + location.pathname.replace(/[^/]*$/, '') + 'index.html';
+  $('topQrUrl').textContent = url;
+  $('topQrArea').style.display = 'block';
+  await QRCode.toCanvas($('topQrCanvas'), url, { width: 240, margin: 2 });
+});
+$('topQrHide').addEventListener('click', () => {
+  $('topQrArea').style.display = 'none';
 });
