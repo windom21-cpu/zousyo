@@ -12,9 +12,9 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.8">
-<link rel="stylesheet" href="./assets/app.css?v=2.8">
-<script src="./assets/config.js?v=2.8"></script>
+<link rel="stylesheet" href="./assets/98.css?v=2.9">
+<link rel="stylesheet" href="./assets/app.css?v=2.9">
+<script src="./assets/config.js?v=2.9"></script>
 </head>
 <body>
 <div class="window">
@@ -41,7 +41,7 @@
 </div>
 
 <script type="module">
-  import { fetchData, getPAT } from './assets/core.js?v=2.8';
+  import { fetchData, getPAT } from './assets/core.js?v=2.9';
   const status = document.getElementById('status');
   const recent = document.getElementById('recent');
   const data = await fetchData();
@@ -49,10 +49,8 @@
   const pat = getPAT() ? '設定済' : '未設定';
   status.textContent = `登録冊数: ${n} 冊  /  PAT: ${pat}  /  バージョン: ${window.APP_CONFIG.version}`;
 
-  const recentItems = data.items
-    .filter(i => i.acquiredAt)
-    .sort((a, b) => (b.acquiredAt || '').localeCompare(a.acquiredAt || ''))
-    .slice(0, 5);
+  // items配列はpush順(=登録順)。末尾5件を取り出して逆順=最新が先頭
+  const recentItems = data.items.slice(-5).reverse();
   if (recentItems.length > 0) {
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     let html = '<p class="muted">最近の登録 (上位5件)</p>';
