@@ -1,7 +1,7 @@
 import {
   uuid, lookupISBN, commitMutation, fetchData,
   findDuplicate, parseVolume, getNick, setNick
-} from './core.js?v=1.0';
+} from './core.js?v=1.1';
 
 const $ = id => document.getElementById(id);
 const fields = ['isbn','series','seriesYomi','volume','edition','title','author','publisher','coverUrl','addedBy','acquiredAt','note'];
