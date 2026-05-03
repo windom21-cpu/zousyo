@@ -1004,6 +1004,51 @@
       "addedBy": "002",
       "note": "",
       "acquiredAt": "2026-05-03"
+    },
+    {
+      "id": "9e94c0a4-9eb0-4dc9-a448-6690d89bd795",
+      "series": "フルーツバスケット 第",
+      "seriesYomi": "フルーツ バスケット",
+      "volume": 4,
+      "edition": "",
+      "title": "フルーツバスケット 第4巻",
+      "author": "高屋,奈月",
+      "publisher": "白泉社",
+      "isbn": "9784592171645",
+      "coverUrl": "",
+      "addedBy": "002",
+      "note": "",
+      "acquiredAt": "2026-05-03"
+    },
+    {
+      "id": "c582514d-b01e-4146-a06a-0cc5e0905459",
+      "series": "フルーツバスケット 第",
+      "seriesYomi": "フルーツ バスケット",
+      "volume": 5,
+      "edition": "",
+      "title": "フルーツバスケット 第5巻",
+      "author": "高屋,奈月",
+      "publisher": "白泉社",
+      "isbn": "9784592171652",
+      "coverUrl": "",
+      "addedBy": "002",
+      "note": "",
+      "acquiredAt": "2026-05-03"
+    },
+    {
+      "id": "1c5f9364-9df4-4c98-953e-8ff3d0c81fd9",
+      "series": "フルーツバスケット 第",
+      "seriesYomi": "フルーツ バスケット",
+      "volume": 6,
+      "edition": "",
+      "title": "フルーツバスケット 第6巻",
+      "author": "高屋,奈月",
+      "publisher": "白泉社",
+      "isbn": "9784592171669",
+      "coverUrl": "",
+      "addedBy": "002",
+      "note": "",
+      "acquiredAt": "2026-05-03"
     }
   ]
 }
