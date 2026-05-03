@@ -224,6 +224,21 @@
       "addedBy": "001",
       "note": "",
       "acquiredAt": "2026-05-03"
+    },
+    {
+      "id": "c57a0195-930c-46d7-9d5e-dad77f2f6634",
+      "series": "ジャンプコミックス",
+      "seriesYomi": "ジュジュツ カイセン トウキョウトリツ ジュジュツ コウトウ センモン ガッコウ",
+      "volume": 0,
+      "edition": "",
+      "title": "呪術廻戦 東京都立呪術高等専門学校 0",
+      "author": "芥見,下々,1992-",
+      "publisher": "集英社",
+      "isbn": "9784088816722",
+      "coverUrl": "",
+      "addedBy": "001",
+      "note": "",
+      "acquiredAt": "2026-05-03"
     }
   ]
 }
