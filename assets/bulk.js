@@ -2,18 +2,45 @@ import {
   uuid, lookupISBN, commitMutation, fetchData,
   findDuplicate, parseVolume, getNick, guessSeriesFromTitle,
   findExistingSeries
-} from './core.js?v=1.9';
+} from './core.js?v=2.0';
 
 const $ = id => document.getElementById(id);
 const queue = [];
 let scanner = null;
 let existing = { items: [] };
 
+const QUEUE_KEY = 'kbooks_bulk_queue';
+function persistQueue() {
+  try {
+    if (queue.length === 0) localStorage.removeItem(QUEUE_KEY);
+    else localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+  } catch (e) {}
+}
+function restoreQueue() {
+  try {
+    const s = localStorage.getItem(QUEUE_KEY);
+    if (!s) return;
+    const arr = JSON.parse(s);
+    if (Array.isArray(arr)) {
+      queue.push(...arr);
+    }
+  } catch (e) {}
+}
+
+restoreQueue();
+
 (async () => {
   $('saveStatus').textContent = '既存蔵書を読み込み中...';
   existing = await fetchData();
   $('saveStatus').textContent = `既存蔵書: ${existing.items.length}冊(重複検出に使用)`;
   populateSeriesDatalist();
+  // 復元済キューがある場合、既存との重複は変わっている可能性があるので再判定
+  if (queue.length > 0) {
+    for (const q of queue) {
+      if (q.status !== 'fetching') validateEntry(q);
+    }
+    render();
+  }
 })();
 
 function populateSeriesDatalist() {
@@ -75,6 +102,7 @@ function validateEntry(entry) {
 }
 
 function render() {
+  persistQueue();
   $('count').textContent = queue.length;
   const okCount = queue.filter(q => q.status === 'ok' || q.status === 'duplicate').length;
   $('saveAll').disabled = okCount === 0;

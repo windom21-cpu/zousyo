@@ -10,9 +10,10 @@
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-<link rel="stylesheet" href="./assets/98.css?v=1.9">
-<link rel="stylesheet" href="./assets/app.css?v=1.9">
-<script src="./assets/config.js?v=1.9"></script>
+<link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./assets/98.css?v=2.0">
+<link rel="stylesheet" href="./assets/app.css?v=2.0">
+<script src="./assets/config.js?v=2.0"></script>
 </head>
 <body>
 <div class="window">
@@ -50,6 +51,7 @@
         <button id="patClear">クリア</button>
       </div>
       <p id="patStatus" class="muted"></p>
+      <p id="patSetAt" class="muted"></p>
     </fieldset>
 
     <fieldset style="margin-top:12px;">
@@ -79,6 +81,33 @@
       </div>
     </fieldset>
 
+    <fieldset style="margin-top:12px;">
+      <legend>シリーズ統合</legend>
+      <p class="muted">表記の違うシリーズ名を1つに揃えます。例: 「ジョジョ」を「ジョジョの奇妙な冒険」に統合 → 該当する蔵書のシリーズ名が一括で書き換わります。</p>
+      <div class="field-row">
+        <label>統合元</label>
+        <select id="mergeFrom"><option value="">-- 選択 --</option></select>
+      </div>
+      <div class="field-row">
+        <label>統合先</label>
+        <select id="mergeTo"><option value="">-- 選択 --</option></select>
+      </div>
+      <p id="mergePreview" class="muted"></p>
+      <div class="button-row">
+        <button id="mergeApply" disabled>統合する</button>
+      </div>
+      <p id="mergeStatus" class="muted"></p>
+    </fieldset>
+
+    <fieldset style="margin-top:12px;">
+      <legend>変更履歴</legend>
+      <p class="muted">data.json への直近のコミット。誤操作の発見に使用。詳細・取消は GitHub 側で。</p>
+      <div class="button-row">
+        <button id="historyLoad">履歴を読み込み</button>
+      </div>
+      <div id="historyList" style="margin-top:8px;"></div>
+    </fieldset>
+
     <div class="button-row" style="margin-top:12px;">
       <button onclick="location.href='./setup.html'">セットアップ手順</button>
       <button onclick="location.href='./index.html'">トップへ</button>
@@ -87,6 +116,6 @@
   </div>
 </div>
 
-<script type="module" src="./assets/settings.js?v=1.9"></script>
+<script type="module" src="./assets/settings.js?v=2.0"></script>
 </body>
 </html>

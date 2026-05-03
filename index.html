@@ -10,9 +10,10 @@
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-<link rel="stylesheet" href="./assets/98.css?v=1.9">
-<link rel="stylesheet" href="./assets/app.css?v=1.9">
-<script src="./assets/config.js?v=1.9"></script>
+<link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./assets/98.css?v=2.0">
+<link rel="stylesheet" href="./assets/app.css?v=2.0">
+<script src="./assets/config.js?v=2.0"></script>
 </head>
 <body>
 <div class="window">
@@ -34,16 +35,33 @@
     </div>
     <hr>
     <p class="muted" id="status">読み込み中...</p>
+    <div id="recent" style="margin-top:8px;"></div>
   </div>
 </div>
 
 <script type="module">
-  import { fetchData, getPAT } from './assets/core.js?v=1.9';
+  import { fetchData, getPAT } from './assets/core.js?v=2.0';
   const status = document.getElementById('status');
+  const recent = document.getElementById('recent');
   const data = await fetchData();
   const n = data.items.length;
   const pat = getPAT() ? '設定済' : '未設定';
   status.textContent = `登録冊数: ${n} 冊  /  PAT: ${pat}  /  バージョン: ${window.APP_CONFIG.version}`;
+
+  const recentItems = data.items
+    .filter(i => i.acquiredAt)
+    .sort((a, b) => (b.acquiredAt || '').localeCompare(a.acquiredAt || ''))
+    .slice(0, 5);
+  if (recentItems.length > 0) {
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    let html = '<p class="muted">最近の登録 (上位5件)</p>';
+    html += '<table border="1"><thead><tr><th>登録日</th><th>シリーズ</th><th>巻</th><th>登録者</th></tr></thead><tbody>';
+    for (const it of recentItems) {
+      html += `<tr><td>${esc(it.acquiredAt)}</td><td>${esc(it.series)}</td><td>${it.volume ?? ''}</td><td>${esc(it.addedBy || '')}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    recent.innerHTML = html;
+  }
 </script>
 </body>
 </html>

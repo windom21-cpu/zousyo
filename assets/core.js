@@ -42,12 +42,26 @@ const NICK_KEY = 'kbooks_nick';
   });
 })();
 
+const PAT_DATE_KEY = 'kbooks_pat_set_at';
+
 export function getPAT() {
   return localStorage.getItem(PAT_KEY) || '';
 }
 export function setPAT(t) {
-  if (t) localStorage.setItem(PAT_KEY, t);
-  else localStorage.removeItem(PAT_KEY);
+  const cur = localStorage.getItem(PAT_KEY) || '';
+  if (t) {
+    localStorage.setItem(PAT_KEY, t);
+    // 値が変わったタイミングで発行日(=この端末が知った日)を更新
+    if (t !== cur) {
+      localStorage.setItem(PAT_DATE_KEY, new Date().toISOString().slice(0, 10));
+    }
+  } else {
+    localStorage.removeItem(PAT_KEY);
+    localStorage.removeItem(PAT_DATE_KEY);
+  }
+}
+export function getPATSetAt() {
+  return localStorage.getItem(PAT_DATE_KEY) || '';
 }
 export function getNick() {
   return localStorage.getItem(NICK_KEY) || '';
