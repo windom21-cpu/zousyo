@@ -233,14 +233,35 @@ export async function lookupISBN(isbn) {
   }
 }
 
-// 重複キー: series + volume + edition
+// 重複キー: series + volume + edition(ISBN欠落時のフォールバック用)
 export function dupKey(item) {
   return `${normalize(item.series)}|${item.volume}|${normalize(item.edition || '')}`;
 }
 
+function isbnDigits(v) {
+  return String(v || '').replace(/\D/g, '');
+}
+
+// ISBNが揃っていればそれで判定(別作品の偶発一致を避ける)、無ければキーで
 export function findDuplicate(items, candidate) {
+  const isbn = isbnDigits(candidate.isbn);
+  if (isbn) {
+    const byIsbn = items.find(i => isbnDigits(i.isbn) === isbn);
+    if (byIsbn) return byIsbn;
+  }
   const k = dupKey(candidate);
   return items.find(i => dupKey(i) === k);
+}
+
+// タイトルからシリーズ名を抽出(openBDの`series`フィールドはレーベル名で
+// 別作品同士が同じ値になるため、こちらを優先する)
+export function guessSeriesFromTitle(title) {
+  if (!title) return '';
+  let s = title;
+  s = s.replace(/[\s　]*\(\d+\)\s*$/, '');         // "(17)"
+  s = s.replace(/[\s　.,:、]*\d+(\s*巻)?\s*$/, ''); // "17" / "17巻" / ". 17"
+  s = s.replace(/[\s　:：。\.\-‐ー]+$/, '');        // 末尾の余計な記号
+  return s.trim();
 }
 
 // 巻数の数値抽出(「3」「第3巻」「3巻」「03」全部対応)

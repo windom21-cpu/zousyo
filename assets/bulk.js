@@ -1,7 +1,7 @@
 import {
   uuid, lookupISBN, commitMutation, fetchData,
-  findDuplicate, parseVolume, getNick
-} from './core.js?v=1.2';
+  findDuplicate, parseVolume, getNick, guessSeriesFromTitle
+} from './core.js?v=1.3';
 
 const $ = id => document.getElementById(id);
 const queue = [];
@@ -30,11 +30,6 @@ function beep() {
 
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-function guessSeries(title) {
-  if (!title) return '';
-  return title.replace(/[\s　]*\d+\s*巻?$/, '').replace(/[\s　]*\(\d+\)$/, '').trim();
 }
 
 function statusHtml(q) {
@@ -102,7 +97,7 @@ async function handleScan(isbn) {
   }
 
   const vol = parseVolume(r.volume) ?? parseVolume(r.title);
-  const series = r.series || guessSeries(r.title);
+  const series = guessSeriesFromTitle(r.title) || r.series || '';
   entry.book = {
     series,
     seriesYomi: r.yomi || '',

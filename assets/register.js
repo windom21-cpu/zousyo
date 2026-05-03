@@ -1,7 +1,7 @@
 import {
   uuid, lookupISBN, commitMutation, fetchData,
-  findDuplicate, parseVolume, getNick, setNick
-} from './core.js?v=1.2';
+  findDuplicate, parseVolume, getNick, setNick, guessSeriesFromTitle
+} from './core.js?v=1.3';
 
 const $ = id => document.getElementById(id);
 const fields = ['isbn','series','seriesYomi','volume','edition','title','author','publisher','coverUrl','addedBy','acquiredAt','note'];
@@ -36,7 +36,7 @@ $('lookup').addEventListener('click', async () => {
   // 既存の手入力を上書きしないよう、空のフィールドだけ埋める
   const cur = readForm();
   if (!cur.title) $('title').value = r.title;
-  if (!cur.series) $('series').value = r.series || guessSeries(r.title);
+  if (!cur.series) $('series').value = guessSeriesFromTitle(r.title) || r.series || '';
   if (!cur.seriesYomi) $('seriesYomi').value = r.yomi;
   if (!cur.volume) {
     const v = parseVolume(r.volume) ?? parseVolume(r.title);
@@ -47,12 +47,6 @@ $('lookup').addEventListener('click', async () => {
   if (!cur.coverUrl) $('coverUrl').value = r.coverUrl;
   $('saveStatus').textContent = '取得しました';
 });
-
-// タイトルからシリーズ名を雑に推定 ("ワンピース 99" -> "ワンピース")
-function guessSeries(title) {
-  if (!title) return '';
-  return title.replace(/[\s　]*\d+\s*巻?$/, '').replace(/[\s　]*\(\d+\)$/, '').trim();
-}
 
 $('clear').addEventListener('click', clearForm);
 
