@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蔵書ファイル</title>
+<link rel="stylesheet" href="./assets/98.css">
+<link rel="stylesheet" href="./assets/app.css">
+<script src="./assets/config.js"></script>
+</head>
+<body>
+<div class="window">
+  <div class="title-bar">
+    <div class="title-bar-text">蔵書ファイル</div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <p>操作を選んでください。</p>
+    <div class="menu-buttons">
+      <button onclick="location.href='./register.html'">登録</button>
+      <button onclick="location.href='./search.html'">検索</button>
+      <button onclick="location.href='./settings.html'">設定</button>
+    </div>
+    <hr>
+    <p class="muted" id="status">読み込み中...</p>
+  </div>
+</div>
+
+<script type="module">
+  import { fetchData, getPAT } from './assets/core.js';
+  const status = document.getElementById('status');
+  const data = await fetchData();
+  const n = data.items.length;
+  const pat = getPAT() ? '設定済' : '未設定';
+  status.textContent = `登録冊数: ${n} 冊  /  PAT: ${pat}`;
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+html, body {
+  font-family: "MS UI Gothic", "ＭＳ Ｐゴシック", "Osaka", "Hiragino Sans", sans-serif;
+  font-size: 12px;
+  background: #008080;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 12px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.window {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.window-body {
+  font-family: "MS UI Gothic", "ＭＳ Ｐゴシック", "Osaka", "Hiragino Sans", sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  font-family: "MS UI Gothic", "ＭＳ Ｐゴシック", "Osaka", "Hiragino Sans", sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+
+table th, table td {
+  border: 1px solid #808080;
+  padding: 2px 6px;
+  vertical-align: top;
+  text-align: left;
+}
+
+table th {
+  background: #c0c0c0;
+}
+
+.field-row {
+  margin: 6px 0;
+}
+
+.field-row label {
+  display: inline-block;
+  width: 110px;
+}
+
+.field-row input[type="text"],
+.field-row input[type="number"],
+.field-row textarea,
+.field-row select {
+  font-family: "MS UI Gothic", "ＭＳ Ｐゴシック", "Osaka", "Hiragino Sans", sans-serif;
+  font-size: 12px;
+  width: calc(100% - 120px);
+  max-width: 360px;
+}
+
+.field-row textarea {
+  height: 60px;
+  vertical-align: top;
+}
+
+.button-row {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.menu-buttons button {
+  width: 140px;
+  height: 80px;
+  font-size: 14px;
+}
+
+.suggest-list {
+  margin-top: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  border: 1px solid #808080;
+  background: #fff;
+}
+
+.suggest-item {
+  padding: 4px 8px;
+  border-bottom: 1px solid #c0c0c0;
+  cursor: pointer;
+}
+
+.suggest-item:hover {
+  background: #000080;
+  color: #fff;
+}
+
+.muted {
+  color: #555;
+}
+
+.error {
+  color: #8b0000;
+}
+
+#reader {
+  width: 100%;
+  max-width: 360px;
+}
+
+.qr-area {
+  text-align: center;
+  padding: 12px;
+}
+
+.qr-area canvas {
+  border: 1px solid #000;
+  background: #fff;
+}
+
+.warn {
+  background: #ffffc0;
+  border: 1px solid #808080;
+  padding: 6px 8px;
+  margin: 8px 0;
+}
+
+.title-bar-text {
+  font-family: "MS UI Gothic", "ＭＳ Ｐゴシック", "Osaka", "Hiragino Sans", sans-serif !important;
+}
+
+.cover-thumb {
+  width: 40px;
+  height: auto;
+  vertical-align: middle;
+}
+
+@media (max-width: 480px) {
+  .field-row label { display: block; width: auto; }
+  .field-row input[type="text"],
+  .field-row input[type="number"],
+  .field-row textarea,
+  .field-row select { width: 100%; max-width: none; }
+  .menu-buttons button { width: 45%; }
+}
