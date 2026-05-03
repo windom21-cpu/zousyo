@@ -12,8 +12,8 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.15">
-<link rel="stylesheet" href="./assets/app.css?v=2.15">
+<link rel="stylesheet" href="./assets/98.css?v=2.16">
+<link rel="stylesheet" href="./assets/app.css?v=2.16">
 <style>
   ol, ul { padding-left: 20px; }
   ol li, ul li { margin: 4px 0; }
@@ -90,12 +90,14 @@
 
     <div class="step">
       <h3>STEP 3 — 家族の端末に招待</h3>
+      <p>家族ごとに番号(002, 003 …)が自動採番されます。あなたは001。</p>
       <ol>
-        <li>あなたの端末で「設定」→「QR表示」</li>
-        <li>表示されたQRを、家族のスマホのカメラで読み取る</li>
-        <li>家族の端末でアプリが開き、「PATを受け取りました」と表示される</li>
-        <li>これで家族の端末からも書き込み可能になる</li>
+        <li>あなたの端末で「設定」→「家族招待用QR」→「QR表示」</li>
+        <li>表示されたQRを家族のスマホのカメラ等で読み取る</li>
+        <li>家族の端末でアプリが開き、「PATを受け取りました(ニックネーム: 002)」と表示される</li>
+        <li>これで家族の端末からも書き込み可能になる(ニックネームも自動セット済)</li>
       </ol>
+      <p><strong>「ホームに追加」(PWA)で使う場合の注意</strong>: PWAから起動した端末はブラウザとは別の保存領域になるため、上記の方法ではPATが渡りません。その場合は <strong>PWAを起動 → 設定 → 「招待QRを読み取る」 → スキャン開始</strong> でこちらから読み取ってください。</p>
       <p class="warn"><strong>注意</strong>: QRはPATそのものと同等の重みです。SNS掲載・来客の見える場所への掲示は避けてください。万一漏洩したらSTEP1のページでPATを失効させ、新しいPATを発行 → 再配布。</p>
     </div>
 
@@ -114,13 +116,27 @@
       <legend>トラブルシューティング</legend>
       <table border="1">
         <tr><th>症状</th><th>対処</th></tr>
+        <tr><th colspan="2" style="background:#c0c0c0;">PAT・招待まわり</th></tr>
+        <tr><td>ホーム追加した端末(PWA)で「PAT: 未設定」になる</td><td>PWAはブラウザと別ストレージのため、PWA内で改めて受信する必要あり。設定 → 「招待QRを読み取る」 → スキャン開始 → 管理者のQRを読み取り</td></tr>
+        <tr><td>招待QRをスキャンしてもPATが入らない</td><td>① タイトルバーで現バージョンが最新か確認 ② F12コンソールに「PAT received via URL」が出ているか ③ 古いiOSではフラグメント方式のQRが落ちることあり、最新版を使えばクエリ方式で動く</td></tr>
+        <tr><td>保存時「PATが未設定です」</td><td>設定画面でPATを保存(or 招待QR読取)</td></tr>
+        <tr><td>保存失敗 401/403</td><td>PATの権限不足または失効。STEP1で再発行 → 設定で更新</td></tr>
+        <tr><td>保存失敗 422/409 が繰り返す</td><td>他端末と同時書込中、または GitHub読取レプリカの遅延。自動で6回リトライするが、それでもダメなら時間をおいて再試行</td></tr>
+        <tr><th colspan="2" style="background:#c0c0c0;">カメラ・スキャン</th></tr>
         <tr><td>カメラが起動しない / 「カメラ起動失敗」</td><td>① HTTPSでアクセス(GitHub PagesならOK、<code>file://</code>不可) ② カメラ権限を許可(初回ブロックすると要リセット: ブラウザのサイト設定→カメラ→許可) ③ iOS Safari / Android Chrome を推奨 ④ 他アプリ(LINEなど)がカメラ占有していないか</td></tr>
-        <tr><td>背面カメラが選ばれない / フロントが映る</td><td>v2.4以降は自動で背面→フロント→列挙順に再試行する。それでもダメな場合は端末がデュアルカメラ未対応(PC等)</td></tr>
-        <tr><td>保存時に「PATが未設定です」</td><td>設定画面でPATを保存</td></tr>
-        <tr><td>保存時に「保存失敗 401/403」</td><td>PATの権限不足または失効。STEP1で再発行</td></tr>
-        <tr><td>保存失敗 422/409 を繰り返す</td><td>誰かが同時に書き込み中。少し待って再試行(自動リトライ4回)</td></tr>
-        <tr><td>登録直後に検索で出ない</td><td>GitHubの反映に数秒かかる。検索画面の「再読込」を押下</td></tr>
-        <tr><td>openBDで書誌が見つからない</td><td>古い本・同人誌などは未収録。手入力で対応</td></tr>
+        <tr><td>背面カメラが選ばれない / フロントが映る</td><td>自動で背面→フロント→列挙順に再試行。PC等デュアルカメラ未対応端末は仕方なし</td></tr>
+        <tr><td>連続スキャンで次のバーコードが認識されない</td><td>v2.7以降はEAN-13限定+BarcodeDetector優先で大幅高速化。それでも遅いなら ① ブラウザを最新版に ② ピントが合うようバーコードを20cmほど離す ③ カメラレンズを清掃</td></tr>
+        <tr><td>登録(バーコード)後に手入力欄が空のまま</td><td>openBDの応答待ち。数秒待つ。それでも空なら openBD未収録(古本・同人誌等)。手入力で補完して保存</td></tr>
+        <tr><th colspan="2" style="background:#c0c0c0;">登録・検索</th></tr>
+        <tr><td>登録直後に検索で出ない</td><td>GitHubの反映に数秒。検索画面の「再読込」を押下、または検索画面に再度入り直す</td></tr>
+        <tr><td>同じシリーズが微妙に別シリーズ扱いになる</td><td>登録時の表記揺れ。設定 → 「シリーズ統合・改名」で集約。複数の表記をまとめる場合は「複数選択する」を使用</td></tr>
+        <tr><td>openBDで書誌が見つからない</td><td>古い本・同人誌は未収録。一括登録なら「編集」ボタンから手入力で補える</td></tr>
+        <tr><td>「最近の登録」が同日内で並びが期待と違う</td><td>登録順(配列末尾)で並ぶ。トップを再アクセスかF5で最新化される</td></tr>
+        <tr><th colspan="2" style="background:#c0c0c0;">UI・表示</th></tr>
+        <tr><td>古いUIが表示される</td><td>ハードリロード(Ctrl+Shift+R)。または DevTools → Network → Disable cache</td></tr>
+        <tr><td>📅ボタンを押してもピッカーが開かない</td><td>透明な&lt;input type=date&gt;がボタン上にオーバーレイされている。CSSが当たっていない場合は再読込</td></tr>
+        <tr><td>QRが描画されない</td><td>設定画面のCDN参照を確認(<code>qrcode</code> は esm.sh 経由)</td></tr>
+        <tr><td>一括登録キューがリロードで消えた</td><td>localStorageに保存している。プライベートウィンドウだと永続化されない場合あり</td></tr>
       </table>
     </fieldset>
 
