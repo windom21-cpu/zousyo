@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -12,139 +12,295 @@
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="stylesheet" href="./assets/98.css?v=2.18">
-<link rel="stylesheet" href="./assets/app.css?v=2.18">
 <style>
-  ol, ul { padding-left: 20px; }
-  ol li, ul li { margin: 4px 0; }
-  .step {
-    background: #fff;
-    border: 1px solid #808080;
-    padding: 8px 12px;
-    margin: 8px 0;
+  body {
+    background: #ffffff;
+    color: #222222;
+    font-family: "MS UI Gothic", "ＭＳ ＵＩ Ｇｏｔｈｉｃ", "MSUIGothic", "Hiragino Kaku Gothic ProN", sans-serif;
   }
-  .step h3 {
-    margin: 0 0 6px 0;
-    font-size: 13px;
-    background: #000080;
-    color: #fff;
-    padding: 2px 6px;
-    display: inline-block;
+  h1, h2, h3, h4, p, td, th, li, small, b, i, tt, code, kbd, samp {
+    font-family: "MS UI Gothic", "ＭＳ ＵＩ Ｇｏｔｈｉｃ", "MSUIGothic", "Hiragino Kaku Gothic ProN", sans-serif;
   }
-  code {
-    background: #ffffc0;
-    padding: 1px 4px;
-    border: 1px solid #c0c0c0;
-    font-family: monospace;
-  }
+  h1 { font-size: 32px; font-weight: normal; }
+  h2 { font-size: 26px; font-weight: normal; }
+  a:link    { color: #0033cc; }
+  a:visited { color: #660099; }
 </style>
 </head>
 <body>
-<div class="window">
-  <div class="title-bar">
-    <div class="title-bar-text">セットアップ手順</div>
-    <div class="title-bar-controls">
-      <button aria-label="Close" onclick="location.href='./index.html'"></button>
-    </div>
-  </div>
-  <div class="window-body">
+<a name="top"></a>
+<center>
 
-    <p>K-books を使い始めるための手順です。書き込み(登録・編集・削除)を行う端末ごとに必要です。<strong>閲覧だけなら何も設定不要です。</strong></p>
+<br>
+<h1>★ K-books セットアップ ★</h1>
+<p>K-books を使い始めるための手順です。</p>
+<p><small>書き込み(登録・編集・削除)を行う端末ごとに必要です。閲覧だけなら何も設定不要です。</small></p>
 
-    <fieldset>
-      <legend>このサイト</legend>
-      <table border="1">
-        <tr><th>アプリURL</th><td><a href="./index.html">https://windom21-cpu.github.io/k-books/</a></td></tr>
-        <tr><th>リポジトリ</th><td><a href="https://github.com/windom21-cpu/k-books" target="_blank">github.com/windom21-cpu/k-books</a></td></tr>
-      </table>
-    </fieldset>
+<p>
+[ <a href="#step1">STEP 1: PAT発行</a> ]
+&nbsp;[ <a href="#step2">STEP 2: PAT保存</a> ]
+&nbsp;[ <a href="#step3">STEP 3: 家族招待</a> ]
+&nbsp;[ <a href="#step4">STEP 4: 動作確認</a> ]
+&nbsp;[ <a href="#trouble">トラブルシューティング</a> ]
+</p>
 
-    <div class="step">
-      <h3>STEP 1 — fine-grained PAT を発行</h3>
-      <p>GitHubにログインした状態で、<a href="https://github.com/settings/personal-access-tokens/new" target="_blank">こちら</a>を開く。または:</p>
-      <p class="muted">右上のアイコン → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</p>
-      <p>以下のように設定:</p>
-      <table border="1">
-        <tr><th>項目</th><th>値</th></tr>
-        <tr><td>Token name</td><td><code>k-books-write</code>(任意)</td></tr>
-        <tr><td>Expiration</td><td>1 year(最長)</td></tr>
-        <tr><td>Resource owner</td><td>windom21-cpu</td></tr>
-        <tr><td>Repository access</td><td>Only select repositories → <code>k-books</code></td></tr>
-        <tr><td>Repository permissions</td><td>Contents: <strong>Read and write</strong></td></tr>
-      </table>
-      <p>「Generate token」を押下 → <code>github_pat_xxxxxx...</code> が表示されるのでコピー。<strong>再表示できない</strong>のでメモ帳等に一時保存。</p>
-      <p class="warn">期限は最長1年。失効したら同じ手順で作り直し → 設定画面で更新。カレンダーに登録推奨。</p>
-    </div>
+<br>
 
-    <div class="step">
-      <h3>STEP 2 — 設定画面でPATを保存</h3>
-      <ol>
-        <li><a href="./index.html">トップページ</a>を開く</li>
-        <li>「設定」をクリック</li>
-        <li>PAT欄にSTEP1でコピーしたトークンを貼り付け</li>
-        <li>ニックネームを入力(任意・登録履歴に残ります)</li>
-        <li>「保存」を押下</li>
-      </ol>
-      <p>これでこの端末から書き込み(登録・編集・削除)が可能になります。</p>
-    </div>
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <th width="22%">項目</th>
+    <th>内容</th>
+  </tr>
+  <tr>
+    <td align="center"><b>アプリURL</b></td>
+    <td><a href="./index.html">https://windom21-cpu.github.io/k-books/</a></td>
+  </tr>
+  <tr>
+    <td align="center"><b>リポジトリ</b></td>
+    <td><a href="https://github.com/windom21-cpu/k-books" target="_blank">github.com/windom21-cpu/k-books</a></td>
+  </tr>
+</table>
 
-    <div class="step">
-      <h3>STEP 3 — 家族の端末に招待</h3>
-      <p>家族ごとに番号(002, 003 …)が自動採番されます。あなたは001。</p>
-      <ol>
-        <li>あなたの端末で「設定」→「家族招待用QR」→「QR表示」</li>
-        <li>表示されたQRを家族のスマホのカメラ等で読み取る</li>
-        <li>家族の端末でアプリが開き、「PATを受け取りました(ニックネーム: 002)」と表示される</li>
-        <li>これで家族の端末からも書き込み可能になる(ニックネームも自動セット済)</li>
-      </ol>
-      <p><strong>「ホームに追加」(PWA)で使う場合の注意</strong>: PWAから起動した端末はブラウザとは別の保存領域になるため、上記の方法ではPATが渡りません。その場合は <strong>PWAを起動 → 設定 → 「招待QRを読み取る」 → スキャン開始</strong> でこちらから読み取ってください。</p>
-      <p class="warn"><strong>注意</strong>: QRはPATそのものと同等の重みです。SNS掲載・来客の見える場所への掲示は避けてください。万一漏洩したらSTEP1のページでPATを失効させ、新しいPATを発行 → 再配布。</p>
-    </div>
+<br>
 
-    <div class="step">
-      <h3>STEP 4 — 動作確認</h3>
-      <ul>
-        <li><strong>トップ</strong>: 「登録冊数: 0 冊 / PAT: 設定済」と表示される</li>
-        <li><strong>登録(手動)</strong>: ISBN手入力 → 「openBD取得」で自動補完 → 保存</li>
-        <li><strong>登録(バーコード)</strong>: スマホで「スキャン開始」→ コミックのバーコードを向ける → 自動でフォーム補完 → 保存</li>
-        <li><strong>検索</strong>: 「わんぴーす」「ONE」など部分入力 → サジェスト表示、所持最大巻と抜け巻が表示される</li>
-        <li><strong>重複チェック</strong>: 同シリーズ・同巻・同版を登録しようとすると警告が出る</li>
-      </ul>
-    </div>
+<hr width="80%">
 
-    <fieldset style="margin-top:12px;">
-      <legend>トラブルシューティング</legend>
-      <table border="1">
-        <tr><th>症状</th><th>対処</th></tr>
-        <tr><th colspan="2" style="background:#c0c0c0;">PAT・招待まわり</th></tr>
-        <tr><td>ホーム追加した端末(PWA)で「PAT: 未設定」になる</td><td>PWAはブラウザと別ストレージのため、PWA内で改めて受信する必要あり。設定 → 「招待QRを読み取る」 → スキャン開始 → 管理者のQRを読み取り</td></tr>
-        <tr><td>招待QRをスキャンしてもPATが入らない</td><td>① タイトルバーで現バージョンが最新か確認 ② F12コンソールに「PAT received via URL」が出ているか ③ 古いiOSではフラグメント方式のQRが落ちることあり、最新版を使えばクエリ方式で動く</td></tr>
-        <tr><td>保存時「PATが未設定です」</td><td>設定画面でPATを保存(or 招待QR読取)</td></tr>
-        <tr><td>保存失敗 401/403</td><td>PATの権限不足または失効。STEP1で再発行 → 設定で更新</td></tr>
-        <tr><td>保存失敗 422/409 が繰り返す</td><td>他端末と同時書込中、または GitHub読取レプリカの遅延。自動で6回リトライするが、それでもダメなら時間をおいて再試行</td></tr>
-        <tr><th colspan="2" style="background:#c0c0c0;">カメラ・スキャン</th></tr>
-        <tr><td>カメラが起動しない / 「カメラ起動失敗」</td><td>① HTTPSでアクセス(GitHub PagesならOK、<code>file://</code>不可) ② カメラ権限を許可(初回ブロックすると要リセット: ブラウザのサイト設定→カメラ→許可) ③ iOS Safari / Android Chrome を推奨 ④ 他アプリ(LINEなど)がカメラ占有していないか</td></tr>
-        <tr><td>背面カメラが選ばれない / フロントが映る</td><td>自動で背面→フロント→列挙順に再試行。PC等デュアルカメラ未対応端末は仕方なし</td></tr>
-        <tr><td>連続スキャンで次のバーコードが認識されない</td><td>v2.7以降はEAN-13限定+BarcodeDetector優先で大幅高速化。それでも遅いなら ① ブラウザを最新版に ② ピントが合うようバーコードを20cmほど離す ③ カメラレンズを清掃</td></tr>
-        <tr><td>登録(バーコード)後に手入力欄が空のまま</td><td>openBDの応答待ち。数秒待つ。それでも空なら openBD未収録(古本・同人誌等)。手入力で補完して保存</td></tr>
-        <tr><th colspan="2" style="background:#c0c0c0;">登録・検索</th></tr>
-        <tr><td>登録直後に検索で出ない</td><td>GitHubの反映に数秒。検索画面の「再読込」を押下、または検索画面に再度入り直す</td></tr>
-        <tr><td>同じシリーズが微妙に別シリーズ扱いになる</td><td>登録時の表記揺れ。設定 → 「シリーズ統合・改名」で集約。複数の表記をまとめる場合は「複数選択する」を使用</td></tr>
-        <tr><td>openBDで書誌が見つからない</td><td>古い本・同人誌は未収録。一括登録なら「編集」ボタンから手入力で補える</td></tr>
-        <tr><td>「最近の登録」が同日内で並びが期待と違う</td><td>登録順(配列末尾)で並ぶ。トップを再アクセスかF5で最新化される</td></tr>
-        <tr><th colspan="2" style="background:#c0c0c0;">UI・表示</th></tr>
-        <tr><td>古いUIが表示される</td><td>ハードリロード(Ctrl+Shift+R)。または DevTools → Network → Disable cache</td></tr>
-        <tr><td>📅ボタンを押してもピッカーが開かない</td><td>透明な&lt;input type=date&gt;がボタン上にオーバーレイされている。CSSが当たっていない場合は再読込</td></tr>
-        <tr><td>QRが描画されない</td><td>設定画面のCDN参照を確認(<code>qrcode</code> は esm.sh 経由)</td></tr>
-        <tr><td>一括登録キューがリロードで消えた</td><td>localStorageに保存している。プライベートウィンドウだと永続化されない場合あり</td></tr>
-      </table>
-    </fieldset>
+<a name="step1"></a>
+<h2>★ STEP 1 ★ fine-grained PAT を発行</h2>
 
-    <div class="button-row" style="margin-top:12px;">
-      <button onclick="location.href='./index.html'">トップへ</button>
-    </div>
+<p>GitHubにログインした状態で、<a href="https://github.com/settings/personal-access-tokens/new" target="_blank">こちら</a>を開く。</p>
+<p><small>右上のアイコン → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</small></p>
 
-  </div>
-</div>
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <th width="30%">設定項目</th>
+    <th>値</th>
+  </tr>
+  <tr>
+    <td align="center">Token name</td>
+    <td><tt>k-books-write</tt>(任意)</td>
+  </tr>
+  <tr>
+    <td align="center">Expiration</td>
+    <td>1 year(最長)</td>
+  </tr>
+  <tr>
+    <td align="center">Resource owner</td>
+    <td>windom21-cpu</td>
+  </tr>
+  <tr>
+    <td align="center">Repository access</td>
+    <td>Only select repositories → <tt>k-books</tt></td>
+  </tr>
+  <tr>
+    <td align="center">Repository permissions</td>
+    <td>Contents: <b>Read and write</b></td>
+  </tr>
+</table>
+
+<p>「Generate token」を押下すると <tt>github_pat_xxxxxx...</tt> が表示されるのでコピー。<br>
+<b>再表示できない</b>のでメモ帳等に一時保存。</p>
+<p><small>※ 期限は最長1年。失効したら同じ手順で作り直し → 設定画面で更新。カレンダーに登録推奨。</small></p>
+
+<br>
+
+<hr width="80%">
+
+<a name="step2"></a>
+<h2>★ STEP 2 ★ 設定画面でPATを保存</h2>
+
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <td>
+      1. <a href="./index.html">トップページ</a>を開く<br>
+      2. 「設定」をクリック<br>
+      3. PAT欄にSTEP1でコピーしたトークンを貼り付け<br>
+      4. ニックネームを入力(任意・登録履歴に残ります)<br>
+      5. 「保存」を押下
+    </td>
+  </tr>
+</table>
+
+<p>これでこの端末から書き込み(登録・編集・削除)が可能になります。</p>
+
+<br>
+
+<hr width="80%">
+
+<a name="step3"></a>
+<h2>★ STEP 3 ★ 家族の端末に招待</h2>
+
+<p>家族ごとに番号(002, 003 …)が自動採番されます。あなたは001。</p>
+
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <td>
+      1. あなたの端末で「設定」→「家族招待用QR」→「QR表示」<br>
+      2. 表示されたQRを家族のスマホのカメラ等で読み取る<br>
+      3. 家族の端末でアプリが開き、「PATを受け取りました(ニックネーム: 002)」と表示される<br>
+      4. これで家族の端末からも書き込み可能になる(ニックネームも自動セット済)
+    </td>
+  </tr>
+</table>
+
+<p><b>「ホームに追加」(PWA)で使う場合の注意</b><br>
+PWAから起動した端末はブラウザとは別の保存領域になるため、上記の方法ではPATが渡りません。<br>
+その場合は <b>PWAを起動 → 設定 → 「招待QRを読み取る」 → スキャン開始</b> でこちらから読み取ってください。</p>
+
+<p><small>※ QRはPATそのものと同等の重みです。SNS掲載・来客の見える場所への掲示は避けてください。万一漏洩したらSTEP1のページでPATを失効させ、新しいPATを発行 → 再配布。</small></p>
+
+<br>
+
+<hr width="80%">
+
+<a name="step4"></a>
+<h2>★ STEP 4 ★ 動作確認</h2>
+
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <th width="30%">項目</th>
+    <th>確認内容</th>
+  </tr>
+  <tr>
+    <td align="center"><b>トップ</b></td>
+    <td>「登録冊数: 0 冊 / PAT: 設定済」と表示される</td>
+  </tr>
+  <tr>
+    <td align="center"><b>登録(手動)</b></td>
+    <td>ISBN手入力 → 「openBD取得」で自動補完 → 保存</td>
+  </tr>
+  <tr>
+    <td align="center"><b>登録(バーコード)</b></td>
+    <td>スマホで「スキャン開始」→ コミックのバーコードを向ける → 自動でフォーム補完 → 保存</td>
+  </tr>
+  <tr>
+    <td align="center"><b>検索</b></td>
+    <td>「わんぴーす」「ONE」など部分入力 → サジェスト表示、所持最大巻と抜け巻が表示される</td>
+  </tr>
+  <tr>
+    <td align="center"><b>重複チェック</b></td>
+    <td>同シリーズ・同巻・同版を登録しようとすると警告が出る</td>
+  </tr>
+</table>
+
+<br>
+
+<hr width="80%">
+
+<a name="trouble"></a>
+<h2>★ トラブルシューティング ★</h2>
+
+<table border="1" cellpadding="8" align="center" width="90%">
+  <tr>
+    <th width="35%">症状</th>
+    <th>対処</th>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center"><b>― PAT・招待まわり ―</b></td>
+  </tr>
+  <tr>
+    <td>ホーム追加した端末(PWA)で「PAT: 未設定」になる</td>
+    <td>PWAはブラウザと別ストレージのため、PWA内で改めて受信する必要あり。<br>設定 → 「招待QRを読み取る」 → スキャン開始 → 管理者のQRを読み取り</td>
+  </tr>
+  <tr>
+    <td>招待QRをスキャンしてもPATが入らない</td>
+    <td>(1) タイトルバーで現バージョンが最新か確認<br>(2) F12コンソールに「PAT received via URL」が出ているか<br>(3) 古いiOSではフラグメント方式のQRが落ちることあり、最新版を使えばクエリ方式で動く</td>
+  </tr>
+  <tr>
+    <td>保存時「PATが未設定です」</td>
+    <td>設定画面でPATを保存(or 招待QR読取)</td>
+  </tr>
+  <tr>
+    <td>保存失敗 401/403</td>
+    <td>PATの権限不足または失効。STEP1で再発行 → 設定で更新</td>
+  </tr>
+  <tr>
+    <td>保存失敗 422/409 が繰り返す</td>
+    <td>他端末と同時書込中、または GitHub読取レプリカの遅延。自動で6回リトライするが、それでもダメなら時間をおいて再試行</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center"><b>― カメラ・スキャン ―</b></td>
+  </tr>
+  <tr>
+    <td>カメラが起動しない / 「カメラ起動失敗」</td>
+    <td>(1) HTTPSでアクセス(GitHub PagesならOK、<tt>file://</tt>不可)<br>(2) カメラ権限を許可(初回ブロックすると要リセット: ブラウザのサイト設定→カメラ→許可)<br>(3) iOS Safari / Android Chrome を推奨<br>(4) 他アプリ(LINEなど)がカメラ占有していないか</td>
+  </tr>
+  <tr>
+    <td>背面カメラが選ばれない / フロントが映る</td>
+    <td>自動で背面→フロント→列挙順に再試行。PC等デュアルカメラ未対応端末は仕方なし</td>
+  </tr>
+  <tr>
+    <td>連続スキャンで次のバーコードが認識されない</td>
+    <td>v2.7以降はEAN-13限定+BarcodeDetector優先で大幅高速化。それでも遅いなら (1) ブラウザを最新版に (2) ピントが合うようバーコードを20cmほど離す (3) カメラレンズを清掃</td>
+  </tr>
+  <tr>
+    <td>登録(バーコード)後に手入力欄が空のまま</td>
+    <td>openBDの応答待ち。数秒待つ。それでも空なら openBD未収録(古本・同人誌等)。手入力で補完して保存</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center"><b>― 登録・検索 ―</b></td>
+  </tr>
+  <tr>
+    <td>登録直後に検索で出ない</td>
+    <td>GitHubの反映に数秒。検索画面の「再読込」を押下、または検索画面に再度入り直す</td>
+  </tr>
+  <tr>
+    <td>同じシリーズが微妙に別シリーズ扱いになる</td>
+    <td>登録時の表記揺れ。設定 → 「シリーズ統合・改名」で集約。複数の表記をまとめる場合は「複数選択する」を使用</td>
+  </tr>
+  <tr>
+    <td>openBDで書誌が見つからない</td>
+    <td>古い本・同人誌は未収録。一括登録なら「編集」ボタンから手入力で補える</td>
+  </tr>
+  <tr>
+    <td>「最近の登録」が同日内で並びが期待と違う</td>
+    <td>登録順(配列末尾)で並ぶ。トップを再アクセスかF5で最新化される</td>
+  </tr>
+  <tr>
+    <td>表紙画像が表示されない</td>
+    <td>(1) ISBN登録時に openBD/Google Books どちらにもcoverが無かった可能性<br>(2) 編集モーダルで「再取得」を試す<br>(3) それでもダメなら手動でURL貼付け(Amazon商品画像URL等)</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center"><b>― UI・表示 ―</b></td>
+  </tr>
+  <tr>
+    <td>古いUIが表示される</td>
+    <td>ハードリロード(Ctrl+Shift+R)。または DevTools → Network → Disable cache</td>
+  </tr>
+  <tr>
+    <td>📅ボタンを押してもピッカーが開かない</td>
+    <td>透明な&lt;input type=date&gt;がボタン上にオーバーレイされている。CSSが当たっていない場合は再読込</td>
+  </tr>
+  <tr>
+    <td>QRが描画されない</td>
+    <td>設定画面のCDN参照を確認(<tt>qrcode</tt> は esm.sh 経由)</td>
+  </tr>
+  <tr>
+    <td>一括登録キューがリロードで消えた</td>
+    <td>localStorageに保存している。プライベートウィンドウだと永続化されない場合あり</td>
+  </tr>
+</table>
+
+<br>
+
+<hr width="80%">
+
+<p>
+[ <a href="#top">▲ ページ先頭へ</a> ]
+&nbsp;[ <a href="./index.html">トップへ戻る</a> ]
+</p>
+
+<hr width="80%">
+<p>
+<small>
+&copy; K-books &middot; <a href="https://github.com/windom21-cpu/k-books" target="_blank">source on GitHub</a>
+</small>
+</p>
+
+</center>
 </body>
 </html>
